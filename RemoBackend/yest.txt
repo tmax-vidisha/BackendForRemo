@@ -1,0 +1,2 @@
+"https://remoblobstorage.blob.core.windows.net/candidate/CEOImage.jpg?st=2022-04-28T06%3A37%3A28Z&se=2022-04-28T07%3A37%3A28Z&sp=r&sv=2018-03-28&sr=b&sig=fK72SFj5Y5xJMd%2Bx8n%2BJswz65phTf%2FYopodButdS3KA%3D"
+'https://remoblobstorage.blob.core.windows.net/candidate/CEOImage.jpg?st=2022-05-02T07%3A31%3A05Z&se=2022-05-02T08%3A31%3A05Z&sp=r&sv=2018-03-28&sr=b&sig=TLERYAOCqtklLjC4ze3jzHjdopT4SZumS4DXaLA54Aw%3D'
