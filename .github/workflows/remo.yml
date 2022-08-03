@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '16.x'
       - run: |
-          sudo yarn install
+         
           yarn run build 
           sudo pm2 restart pm2.config.js
           
