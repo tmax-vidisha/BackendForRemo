@@ -4,7 +4,7 @@ import express,{Request,Response} from "express";
 // const { BlobServiceClient } = require('@azure/storage-blob');
 import azure from'azure-storage';
 require('dotenv').config();
-
+const  AZURE_STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=remoblobstorage;AccountKey=2dyNCBrGp/3St5coni+Xca3mFbQA67byG6qnp81UjypSK65msMG461kPruQ/Vr0EaZS0qk9y7dxewDnnb3kcxQ==;EndpointSuffix=core.windows.net"
 const BASE_PATH = `https://graph.microsoft.com/v1.0/sites`;
 const REMO_SITE_ID = "tmxin.sharepoint.com,1649e6fd-df59-4f03-8e4b-4d765864f406,d2634703-c0cd-42f6-bfb5-c60555dbcb7d"
 const AnnouncementId = "1b883bd5-98ef-4a8c-8390-ee42ffa431f9"
@@ -77,7 +77,7 @@ const createRequset = async (url:any, token:any) => {
           }
     })
     // console.log(res.data,'yhj7jj78i989o9l')
-    if (!process.env.AZURE_STORAGE_CONNECTION_STRING) {
+    if (!AZURE_STORAGE_CONNECTION_STRING) {
       
                   throw Error("Azure Storage Connection string not found");
                 }
@@ -87,7 +87,7 @@ const createRequset = async (url:any, token:any) => {
                 // var blobName = "CEO.png"
                 // var filePath = "./Remo_Designs/CEO.png";
         
-                var blobService = azure.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING);
+                var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
                 var startDate = new Date();
                 startDate.setMinutes(startDate.getMinutes() - 5);
                 var expiryDate = new Date(startDate);
@@ -121,7 +121,7 @@ const createRequset = async (url:any, token:any) => {
             'Content-Type': 'application/json'
           }
     })
-    if (!process.env.AZURE_STORAGE_CONNECTION_STRING) {
+    if (!AZURE_STORAGE_CONNECTION_STRING) {
                   throw Error("Azure Storage Connection string not found");
                 }
                 const containerName = res.data.value[0].fields.containerName
@@ -129,7 +129,7 @@ const createRequset = async (url:any, token:any) => {
                 var blobName1 = res.data.value[1].fields.blobName;
                 var blobName2 = res.data.value[2].fields.blobName;
         
-                var blobService = azure.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING);
+                var blobService = azure.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
                 var startDate = new Date();
                 startDate.setMinutes(startDate.getMinutes() - 5);
                 var expiryDate = new Date(startDate);

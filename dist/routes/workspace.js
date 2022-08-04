@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const router = (0, express_1.Router)();
+const workspace_1 = require("../controllers/workspace");
+router.route('/subSites/:token').get(workspace_1.getAllSites);
+router.route('/subSites/drives').post(workspace_1.getDrivesofSubSites);
+router.route('/subSites/drives/root').post(workspace_1.getsubItemsroot);
+router.route('/subSites/drives/items/id').post(workspace_1.getsubItemsId);
+exports.default = router;
