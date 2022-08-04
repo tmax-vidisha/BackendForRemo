@@ -3,7 +3,7 @@ import express from "express";
 import token  from './routes/token';
 // const getPostData = require('./routes/graph');
 import graph from './routes/graph';
-// const getAllSites = require('./routes/workspace')
+// const getAllSites = require('./ro0utes/workspace')
 import workspace from './routes/workspace'
 // const RemoToken = require('./controllers/token')
 // const graph = require('./routes/graph')
@@ -14,7 +14,7 @@ import cors from 'cors';
 import  mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import { json } from "body-parser";
-const SERVER_PORT = process.env.PORT || 4000;
+const SERVER_PORT = process.env.PORT || 80 ;
 
 
 
@@ -1517,4 +1517,4 @@ app.use('/api/v1/token',token)
 app.use(`/api/v1/lists`,graph)
 app.use(`/api/v1/sites`,workspace)
 
-app.listen(SERVER_PORT, () => console.log(`Msal Node Auth Code Sample app listening on port ${SERVER_PORT}!`))
+app.listen(80, () => console.log(`Msal Node Auth Code Sample app listening on port ${SERVER_PORT}!`))
