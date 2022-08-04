@@ -2,7 +2,7 @@ module.exports = {
     apps: [
         {
             name: 'PMS',
-            script: 'index.ts',
+            script: 'dist/app.js',
         },
     ],
 };
