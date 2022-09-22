@@ -8,8 +8,10 @@ const express_1 = __importDefault(require("express"));
 const token_1 = __importDefault(require("./routes/token"));
 // const getPostData = require('./routes/graph');
 const graph_1 = __importDefault(require("./routes/graph"));
-// const getAllSites = require('./routes/workspace')
+// const getAllSites = require('./ro0utes/workspace')
 const workspace_1 = __importDefault(require("./routes/workspace"));
+const onedrive_1 = __importDefault(require("./routes/onedrive/onedrive"));
+const header_1 = __importDefault(require("./routes/header"));
 // const RemoToken = require('./controllers/token')
 // const graph = require('./routes/graph')
 // var azure = require('azure-storage');
@@ -17,7 +19,7 @@ const morgan_1 = __importDefault(require("morgan"));
 // const axios = require('axios')
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const SERVER_PORT = process.env.PORT || 4000;
+const SERVER_PORT = process.env.PORT || 80;
 // Create Express App and Routes
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
@@ -1357,4 +1359,6 @@ console.log("Remo");
 app.use('/api/v1/token', token_1.default);
 app.use(`/api/v1/lists`, graph_1.default);
 app.use(`/api/v1/sites`, workspace_1.default);
-app.listen(SERVER_PORT, () => console.log(`Msal Node Auth Code Sample app listening on port ${SERVER_PORT}!`));
+app.use(`/api/v1/onedrive`, onedrive_1.default);
+app.use(`/api/v1/header`, header_1.default);
+app.listen(80, () => console.log(`Msal Node Auth Code Sample app listening on port ${SERVER_PORT}!`));

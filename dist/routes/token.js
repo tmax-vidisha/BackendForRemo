@@ -15,6 +15,7 @@ router.route('/ceomsg/:token').get(token_1.getCeoMsgData);
 router.route('/news/:token').get(token_1.getNewsData);
 router.route('/emp/:token').get(token_1.getEmpData);
 router.route('/hero/:token').get(token_1.getHeroData);
+router.route('/mymeetings/:token').get(token_1.getEventsMeetings);
 // router.route('/folder').post(getFolderData)
 // router.route('/recent').get(createRequset);
 // router.route('/ssss').get(sendData)
