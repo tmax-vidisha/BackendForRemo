@@ -16,6 +16,11 @@ const header_1 = __importDefault(require("./routes/header"));
 // const graph = require('./routes/graph')
 // var azure = require('azure-storage');
 const morgan_1 = __importDefault(require("morgan"));
+const announcement_1 = __importDefault(require("./routes/contenteditor/announcement"));
+const herobannner_1 = __importDefault(require("./routes/contenteditor/herobannner"));
+const ceo_1 = __importDefault(require("./routes/contenteditor/ceo"));
+const emphighlight_1 = __importDefault(require("./routes/contenteditor/emphighlight"));
+const photosandvideo_1 = __importDefault(require("./routes/photoandvideo/photosandvideo"));
 // const axios = require('axios')
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
@@ -1361,4 +1366,6 @@ app.use(`/api/v1/lists`, graph_1.default);
 app.use(`/api/v1/sites`, workspace_1.default);
 app.use(`/api/v1/onedrive`, onedrive_1.default);
 app.use(`/api/v1/header`, header_1.default);
+app.use(`/api/v1/contentEditor`, announcement_1.default, herobannner_1.default, ceo_1.default, emphighlight_1.default);
+app.use(`/api/v1/gallery`, photosandvideo_1.default);
 app.listen(80, () => console.log(`Msal Node Auth Code Sample app listening on port ${SERVER_PORT}!`));

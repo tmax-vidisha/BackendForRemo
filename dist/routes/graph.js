@@ -26,10 +26,14 @@ const router = (0, express_1.Router)();
 //     })
 // router.route('/').get(getTokens)
 router.route('/data').post(postdata_1.getPostData);
-router.route('/eventdata').post(postdata_1.postEventData);
+router.route('/eventdata').post(postdata_1.postRemoEventData);
 router.route('/herodata').post(postdata_1.postHeroData);
 router.route('/ceodata').post(postdata_1.postCeoData);
-router.route('/newsdata').post(postdata_1.postNewsData);
-router.route('/empdata').post(postdata_1.postEmpData);
+router.route('/newsdata').post(postdata_1.postRemoNews);
+router.route('/eventdataOne').post(postdata_1.getRemoEventData);
+router.route('/eventdataLanding').post(postdata_1.getRemoEventDataLanding);
+// router.route('/empdata').post(postEmpData)
+router.route('/empdata').post(postdata_1.postRemEmpHighlight);
+router.route('/empItemdata').post(postdata_1.RemEmpHighlightItemId);
 router.route('/userquicklinkdata').post(postdata_1.postUserQuicklinkData);
 exports.default = router;

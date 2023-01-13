@@ -12,14 +12,78 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.prayerTime = void 0;
+exports.getUserInfo = exports.getMeetingsUnCount = exports.getWeather = exports.getUnReadEmails = exports.getAmount = exports.getCurrency = exports.prayerTime = void 0;
 const axios_1 = __importDefault(require("axios"));
 const asyncHandler_1 = __importDefault(require("../middleware/asyncHandler"));
 const moment_1 = __importDefault(require("moment"));
+const BASE_PATH = `https://graph.microsoft.com/v1.0/sites`;
+const REMO_SITE_ID = "tmxin.sharepoint.com,1649e6fd-df59-4f03-8e4b-4d765864f406,d2634703-c0cd-42f6-bfb5-c60555dbcb7d";
+const Country = "349451e0-0650-4b93-ba94-600714abcdf0";
 const prayerTime = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        var currentDate = (0, moment_1.default)();
+        var currentDate = (0, moment_1.default)(new Date()).format("DD-MM-YYYY");
+        let CurrentTime = (0, moment_1.default)(new Date()).format("HH:mm");
         const response = yield axios_1.default.get(`https://api.aladhan.com/v1/timingsByAddress/'${currentDate}'?address=Dubai,UAE&method=8&tune=2,3,4,5,2,3,4,5,-3`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = yield response.data;
+        // console.log(data.data.timings)
+        res.status(200).json({
+            success: true,
+            response: data.data.timings
+        });
+    }
+    catch (e) {
+        console.log(e);
+    }
+}));
+exports.prayerTime = prayerTime;
+const getCurrency = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.headers.authorization, 'tfssadsadsadasdsaasdasdsadsadsadssccccttddddttttvvvvvtttttttyy');
+    // const  token = req.headers.authorization
+    // console.log(req.body)
+    const { token } = req.params;
+    //  const {token} = req.body
+    console.log(token, 'llll');
+    // console.log(req.body,'gregrthtrht')
+    if (!token) {
+        return res.status(404).json({
+            success: false,
+            error: "No Token found"
+        });
+    }
+    else {
+        const response = 
+        // await axios.get('https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location', {
+        yield axios_1.default.get(`${BASE_PATH}/${REMO_SITE_ID}/lists/${Country}/items?$expand=fields`, {
+            headers: {
+                'Authorization': `Bearer ${token} `,
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response.data.value, "meetingssssssssssssssssssssssss");
+        res.status(200).json({
+            success: true,
+            response: response.data.value
+        });
+    }
+}));
+exports.getCurrency = getCurrency;
+const getAmount = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.headers.authorization, 'tfssadsadsadasdsaasdasdsadsadsadssccccttddddttttvvvvvtttttttyy');
+    const token = req.headers.authorization;
+    // console.log(req.body)
+    // const {token} = req.params
+    //  const {token} = req.body
+    console.log(token, 'llll');
+    // console.log(req.body,'gregrthtrht')
+    const { Contrycode } = req.body;
+    console.log(Contrycode, 'rrrr77i7i');
+    try {
+        var currentDate = (0, moment_1.default)();
+        const response = yield axios_1.default.get(`https://api.exchangerate.host/convert?from=AED&to=${Contrycode}&amount=1`, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -28,11 +92,125 @@ const prayerTime = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, v
         console.log(data);
         res.status(200).json({
             success: true,
-            response: data.data
+            response: data
         });
     }
     catch (e) {
         console.log(e);
     }
 }));
-exports.prayerTime = prayerTime;
+exports.getAmount = getAmount;
+const getUnReadEmails = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.headers.authorization, 'tfssadsadsadasdsaasdasdsadsadsadssccccttddddttttvvvvvtttttttyy');
+    // const  token = req.headers.authorization
+    // console.log(req.body)
+    const { token } = req.params;
+    //  const {token} = req.body
+    console.log(token, 'llll');
+    // console.log(req.body,'gregrthtrht')
+    if (!token) {
+        return res.status(404).json({
+            success: false,
+            error: "No Token found"
+        });
+    }
+    else {
+        const response = 
+        // await axios.get('https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location', {
+        yield axios_1.default.get(`https://graph.microsoft.com/v1.0/me/mailFolders/Inbox?$select=unreadItemCount`, {
+            headers: {
+                'Authorization': `Bearer ${token} `,
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response.data, "UncountEmails");
+        res.status(200).json({
+            success: true,
+            response: response.data
+        });
+    }
+}));
+exports.getUnReadEmails = getUnReadEmails;
+const getWeather = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield axios_1.default.get(`https://api.weatherapi.com/v1/current.json?key=4745d1a343b849d58a7104337211904&q=Dubai&aqi=no`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = yield response.data;
+        console.log(data);
+        res.status(200).json({
+            success: true,
+            response: data
+        });
+    }
+    catch (e) {
+        console.log(e);
+    }
+}));
+exports.getWeather = getWeather;
+const getMeetingsUnCount = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.headers.authorization, 'tfssadsadsadasdsaasdasdsadsadsadssccccttddddttttvvvvvtttttttyy');
+    // const  token = req.headers.authorization
+    // console.log(req.body)
+    const { token } = req.params;
+    //  const {token} = req.body
+    console.log(token, 'llll');
+    // console.log(req.body,'gregrthtrht')
+    if (!token) {
+        return res.status(404).json({
+            success: false,
+            error: "No Token found"
+        });
+    }
+    else {
+        var td = (0, moment_1.default)().format('YYYY-MM-DD');
+        var enddate = (0, moment_1.default)(td).add(30, "days").format("YYYY-MM-DD");
+        const response = 
+        // await axios.get('https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location', {
+        yield axios_1.default.get('https://graph.microsoft.com/v1.0/me/calendarview?startdatetime=' + td + '&enddatetime=' + enddate + '&$orderBy=end/dateTime', {
+            headers: {
+                'Authorization': `Bearer ${token} `,
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response.data, "UnCountMeetings");
+        res.status(200).json({
+            success: true,
+            response: response.data.value
+        });
+    }
+}));
+exports.getMeetingsUnCount = getMeetingsUnCount;
+const getUserInfo = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.headers.authorization, 'tfssadsadsadasdsaasdasdsadsadsadssccccttddddttttvvvvvtttttttyy');
+    // const  token = req.headers.authorization
+    // console.log(req.body)
+    const { token } = req.params;
+    //  const {token} = req.body
+    console.log(token, 'llll');
+    // console.log(req.body,'gregrthtrht')
+    if (!token) {
+        return res.status(404).json({
+            success: false,
+            error: "No Token found"
+        });
+    }
+    else {
+        const response = 
+        // await axios.get('https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location', {
+        yield axios_1.default.get(`https://graph.microsoft.com/oidc/userinfo`, {
+            headers: {
+                'Authorization': `Bearer ${token} `,
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response.data, "UncountEmails");
+        res.status(200).json({
+            success: true,
+            response: response.data
+        });
+    }
+}));
+exports.getUserInfo = getUserInfo;

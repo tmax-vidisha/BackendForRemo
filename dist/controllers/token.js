@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEventsMeetings = exports.createRequset = exports.getHeroData = exports.getEmpData = exports.getNewsData = exports.getCeoMsgData = exports.getNavigationData = exports.getAnnouncementData = exports.getRecentFilesData = exports.getQuicklinkData = exports.getEventData = exports.createToken = exports.getToken = void 0;
+exports.getRemoHero = exports.getRemoNews = exports.getEventsMeetings = exports.createRequset = exports.getHeroData = exports.getEmpData = exports.getNewsData = exports.getCeoMsgData = exports.getNavigationData = exports.getAnnouncementData = exports.getRecentFilesData = exports.getQuicklinkData = exports.getEventData = exports.createToken = exports.getToken = void 0;
 const axios_1 = __importDefault(require("axios"));
 const express_1 = __importDefault(require("express"));
 // const StatusCodes = require ("http-status-codes");
@@ -20,7 +20,6 @@ const express_1 = __importDefault(require("express"));
 const azure_storage_1 = __importDefault(require("azure-storage"));
 const moment_1 = __importDefault(require("moment"));
 require('dotenv').config();
-const AZURE_STORAGE_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=remoblobstorage;AccountKey=2dyNCBrGp/3St5coni+Xca3mFbQA67byG6qnp81UjypSK65msMG461kPruQ/Vr0EaZS0qk9y7dxewDnnb3kcxQ==;EndpointSuffix=core.windows.net";
 const BASE_PATH = `https://graph.microsoft.com/v1.0/sites`;
 const REMO_SITE_ID = "tmxin.sharepoint.com,1649e6fd-df59-4f03-8e4b-4d765864f406,d2634703-c0cd-42f6-bfb5-c60555dbcb7d";
 const AnnouncementId = "1b883bd5-98ef-4a8c-8390-ee42ffa431f9";
@@ -32,6 +31,10 @@ const News_Id = "72988e1e-2ebf-48dc-96ce-2db3cbb7c3e3";
 const EmpHighlights = "14f67e9e-4581-4a06-8c29-f775b8770fe4";
 const HeroImage_Id = "7dfccbdf-0469-40e8-ab99-501d6314491f";
 const Photo_Gallery = "55cf720b-4646-49ed-bc64-c97ed72b75f0";
+const Site_Id = "tmxin.sharepoint.com,39018770-3534-4cef-a057-785c43b6a200,47c126a5-33ee-420a-a84a-c8430a368a43";
+const RemoNews_Id = "25fb939d-87e0-4fb5-b575-f11bd916e4df";
+const RemoEmpHight_Id = "2b3bb6db-7ba9-43e9-92b4-0216b80ef2fe";
+const EventFilter = "https://graph.microsoft.com/v1.0/sites/tmxin.sharepoint.com,1649e6fd-df59-4f03-8e4b-4d765864f406,d2634703-c0cd-42f6-bfb5-c60555dbcb7d/lists('Events')/items?$expand=fields&$orderby=fields/EventDate asc&$filter=fields/EventDate+gt+'2022-07-25'";
 const asyncHandler_1 = __importDefault(require("../middleware/asyncHandler"));
 const app = (0, express_1.default)();
 // const getTokens = require('./graph')
@@ -46,7 +49,7 @@ exports.getToken = getToken;
 // // return variableToExport;
 // return token
 // }
-console.log(AZURE_STORAGE_CONNECTION_STRING, 'gthgtg');
+console.log(process.env.AZURE_STORAGE_CONNECTION_STRING, 'gthgtg');
 // async function ffd(){
 //     // const resp = await axios.get('https://graph.microsoft.com/v1.0/me/drive/recent?$top=5&$orderby=lastModifiedDateTime desc', {
 //     //         headers: {
@@ -90,7 +93,7 @@ const ceomsg = (url, token) => __awaiter(void 0, void 0, void 0, function* () {
         }
     });
     // console.log(res.data,'yhj7jj78i989o9l')
-    if (!AZURE_STORAGE_CONNECTION_STRING) {
+    if (!process.env.AZURE_STORAGE_CONNECTION_STRING) {
         throw Error("Azure Storage Connection string not found");
     }
     //  const blobServiceClient= await BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING)
@@ -98,7 +101,7 @@ const ceomsg = (url, token) => __awaiter(void 0, void 0, void 0, function* () {
     var blobName = res.data.value[0].fields.blobName;
     // var blobName = "CEO.png"
     // var filePath = "./Remo_Designs/CEO.png";
-    var blobService = azure_storage_1.default.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
+    var blobService = azure_storage_1.default.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING);
     var startDate = new Date();
     startDate.setMinutes(startDate.getMinutes() - 5);
     var expiryDate = new Date(startDate);
@@ -126,14 +129,14 @@ const requestgraph = (url, token) => __awaiter(void 0, void 0, void 0, function*
             'Content-Type': 'application/json'
         }
     });
-    if (!AZURE_STORAGE_CONNECTION_STRING) {
+    if (!process.env.AZURE_STORAGE_CONNECTION_STRING) {
         throw Error("Azure Storage Connection string not found");
     }
     const containerName = res.data.value[0].fields.containerName;
     var blobName = res.data.value[0].fields.blobName;
     var blobName1 = res.data.value[1].fields.blobName;
     var blobName2 = res.data.value[2].fields.blobName;
-    var blobService = azure_storage_1.default.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
+    var blobService = azure_storage_1.default.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING);
     var startDate = new Date();
     startDate.setMinutes(startDate.getMinutes() - 5);
     var expiryDate = new Date(startDate);
@@ -189,14 +192,14 @@ const requestgraphemp = (url, token) => __awaiter(void 0, void 0, void 0, functi
             'Content-Type': 'application/json'
         }
     });
-    if (!AZURE_STORAGE_CONNECTION_STRING) {
+    if (!process.env.AZURE_STORAGE_CONNECTION_STRING) {
         throw Error("Azure Storage Connection string not found");
     }
     const containerName = res.data.value[0].fields.containerName;
     var blobName = res.data.value[0].fields.blobName;
     var blobName1 = res.data.value[1].fields.blobName;
     var blobName2 = res.data.value[2].fields.blobName;
-    var blobService = azure_storage_1.default.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
+    var blobService = azure_storage_1.default.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING);
     var startDate = new Date();
     startDate.setMinutes(startDate.getMinutes() - 5);
     var expiryDate = new Date(startDate);
@@ -252,14 +255,14 @@ const requestgraphhero = (url, token) => __awaiter(void 0, void 0, void 0, funct
             'Content-Type': 'application/json'
         }
     });
-    if (!AZURE_STORAGE_CONNECTION_STRING) {
+    if (!process.env.AZURE_STORAGE_CONNECTION_STRING) {
         throw Error("Azure Storage Connection string not found");
     }
     const containerName = res.data.value[0].fields.containerName;
     var blobName = res.data.value[0].fields.blobName;
     var blobName1 = res.data.value[1].fields.blobName;
     var blobName2 = res.data.value[2].fields.blobName;
-    var blobService = azure_storage_1.default.createBlobService(AZURE_STORAGE_CONNECTION_STRING);
+    var blobService = azure_storage_1.default.createBlobService(process.env.AZURE_STORAGE_CONNECTION_STRING);
     var startDate = new Date();
     startDate.setMinutes(startDate.getMinutes() - 5);
     var expiryDate = new Date(startDate);
@@ -537,9 +540,19 @@ const getEmpData = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, v
         });
     }
     else {
+        const response = 
+        // await axios.get('https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location', {
+        // await axios.get(`https://graph.microsoft.com/v1.0/sites/tmxin.sharepoint.com,39018770-3534-4cef-a057-785c43b6a200,47c126a5-33ee-420a-a84a-c8430a368a43/lists/2b3bb6db-7ba9-43e9-92b4-0216b80ef2fe/items?$expand=fields`, {
+        yield axios_1.default.get(`https://graph.microsoft.com/v1.0/sites/tmxin.sharepoint.com,39018770-3534-4cef-a057-785c43b6a200,47c126a5-33ee-420a-a84a-c8430a368a43/lists('EmpHighlights')/items?$expand=fields&$select=*&$filter=fields/isDraft  ne '1'`, {
+            headers: {
+                'Authorization': `Bearer ${token} `,
+                'Content-Type': 'application/json',
+                'Prefer': 'HonorNonIndexedQueriesWarningMayFailRandomly'
+            }
+        });
         res.status(200).json({
             success: true,
-            response: yield requestgraphemp(`${BASE_PATH}/${REMO_SITE_ID}/lists/${EmpHighlights}/items?$expand=fields`, token)
+            response: response.data.value
         });
     }
 }));
@@ -599,3 +612,77 @@ const getEventsMeetings = (0, asyncHandler_1.default)((req, res) => __awaiter(vo
     }
 }));
 exports.getEventsMeetings = getEventsMeetings;
+const getRemoNews = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.headers.authorization, 'tfssadsadsadasdsaasdasdsadsadsadssccccttddddttttvvvvvtttttttyy');
+    // const  token = req.headers.authorization
+    // console.log(req.body)
+    const { token } = req.params;
+    //  const {token} = req.body
+    console.log(token, 'llll');
+    // console.log(req.body,'gregrthtrht')
+    if (!token) {
+        return res.status(404).json({
+            success: false,
+            error: "No Token found"
+        });
+    }
+    else {
+        const response = 
+        // await axios.get('https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location', {
+        yield axios_1.default.get(`${BASE_PATH}/${Site_Id}/lists/${RemoNews_Id}/items?$expand=fields`, {
+            headers: {
+                'Authorization': `Bearer ${token} `,
+                'Content-Type': 'application/json'
+            }
+        });
+        const responseTop = 
+        // await axios.get('https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location', {
+        yield axios_1.default.get(`${BASE_PATH}/${Site_Id}/lists/${RemoNews_Id}/items?$expand=fields&$top=5`, {
+            headers: {
+                'Authorization': `Bearer ${token} `,
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response.data.value, "meetingssssssssssssssssssssssss");
+        res.status(200).json({
+            success: true,
+            response: response.data.value,
+            response1: responseTop.data.value
+        });
+    }
+}));
+exports.getRemoNews = getRemoNews;
+const getRemoHero = (0, asyncHandler_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.headers.authorization, 'tfssadsadsadasdsaasdasdsadsadsadssccccttddddttttvvvvvtttttttyy');
+    // const  token = req.headers.authorization
+    // console.log(req.body)
+    const { token } = req.params;
+    //  const {token} = req.body
+    console.log(token, 'llll');
+    // console.log(req.body,'gregrthtrht')
+    if (!token) {
+        return res.status(404).json({
+            success: false,
+            error: "No Token found"
+        });
+    }
+    else {
+        const response = 
+        // await axios.get('https://graph.microsoft.com/v1.0/me/events?$select=subject,body,bodyPreview,organizer,attendees,start,end,location', {
+        // await axios.get(`https://graph.microsoft.com/v1.0/sites/tmxin.sharepoint.com,39018770-3534-4cef-a057-785c43b6a200,47c126a5-33ee-420a-a84a-c8430a368a43/lists/0ec4e29a-d2ec-4835-a011-ea8a3fe33ed4/items?$expand=fields`, {
+        yield axios_1.default.get(`https://graph.microsoft.com/v1.0/sites/tmxin.sharepoint.com,39018770-3534-4cef-a057-785c43b6a200,47c126a5-33ee-420a-a84a-c8430a368a43/lists('Hero')/items?$expand=fields&$select=*&$filter=fields/isDraft  ne '1'`, {
+            headers: {
+                'Authorization': `Bearer ${token} `,
+                'Content-Type': 'application/json',
+                'Prefer': 'HonorNonIndexedQueriesWarningMayFailRandomly'
+            }
+        });
+        console.log(response.data.value, "meetingssssssssssssssssssssssss");
+        res.status(200).json({
+            success: true,
+            response: response.data.value,
+            // response1:responseTop.data.value
+        });
+    }
+}));
+exports.getRemoHero = getRemoHero;
