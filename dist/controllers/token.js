@@ -46,7 +46,7 @@ exports.getToken = getToken;
 // // return variableToExport;
 // return token
 // }
-console.log(process.env.AZURE_STORAGE_CONNECTION_STRING, 'gthgtg');
+console.log(AZURE_STORAGE_CONNECTION_STRING, 'gthgtg');
 // async function ffd(){
 //     // const resp = await axios.get('https://graph.microsoft.com/v1.0/me/drive/recent?$top=5&$orderby=lastModifiedDateTime desc', {
 //     //         headers: {
